@@ -1,0 +1,17 @@
+---
+// Componente de producto tipo "Carta" para portada y compras
+const { nombre, precio, imagen, calificacion, editable } = Astro.props;
+---
+<article style="background: var(--bg, #fff); color: var(--fg, #000); border-radius: 1rem; box-shadow: 0 2px 8px #0002; padding: 1.5rem; width: 260px; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+  <img src={imagen} alt={nombre} style="width: 120px; height: 120px; object-fit: cover; border-radius: 0.5rem; background: #eee;" />
+  <h2 style="font-size: 1.2rem; font-weight: bold; margin: 0;">{nombre}</h2>
+  <p style="font-size: 1.1rem; margin: 0;">${precio}</p>
+  <div style="display: flex; align-items: center; gap: 0.3rem;">
+    <StarRating calificacion={calificacion} editable={editable} />
+    <span style="font-size: 0.95rem;">({calificacion})</span>
+  </div>
+</article>
+
+---
+// Importa el componente de estrellas
+import StarRating from "./StarRating.astro";

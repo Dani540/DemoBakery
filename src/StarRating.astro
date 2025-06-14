@@ -1,0 +1,20 @@
+---
+// Componente de estrellas para calificación, editable con Vue si se requiere
+const { calificacion, editable } = Astro.props;
+---
+
+{editable ? (
+  <StarRatingVue :calificacion="calificacion" />
+) : (
+  <div style="display: flex; gap: 0.1rem;">
+    {Array.from({ length: 5 }).map((_, i) => (
+      <svg width="20" height="20" fill={i < calificacion ? '#000' : 'none'} stroke="#000" stroke-width="1.5" viewBox="0 0 24 24" key={i} style="display: inline-block;">
+        <polygon points="12,2 15,9 22,9.5 17,14.5 18.5,22 12,18 5.5,22 7,14.5 2,9.5 9,9" />
+      </svg>
+    ))}
+  </div>
+)}
+
+---
+// Importa el componente Vue solo si es editable
+import StarRatingVue from "./StarRatingVue.vue";

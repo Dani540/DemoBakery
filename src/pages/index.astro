@@ -1,16 +1,48 @@
 ---
-
+import Carta from '../Carta.astro';
+const productos = [
+  {
+    nombre: 'Torta de Chocolate',
+    precio: '12.000',
+    imagen: '/favicon.svg',
+    calificacion: 4,
+  },
+  {
+    nombre: 'Brownie',
+    precio: '3.500',
+    imagen: '/favicon.svg',
+    calificacion: 5,
+  },
+  {
+    nombre: 'Galletas Artesanales',
+    precio: '2.000',
+    imagen: '/favicon.svg',
+    calificacion: 3,
+  },
+  {
+    nombre: 'Café en grano',
+    precio: '8.000',
+    imagen: '/favicon.svg',
+    calificacion: 4,
+  },
+];
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Pastelería & Mini-Market</title>
+    <style>
+      body { background: #000; color: #fff; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; }
+      h1 { text-align: center; font-size: 2.5rem; margin: 2rem 0 1.5rem 0; letter-spacing: 0.05em; }
+      .productos-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; padding: 2rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Pastelería & Mini-Market</h1>
+    <div class="productos-grid">
+      {productos.map((p) => <Carta {...p} editable={false} />)}
+    </div>
+  </body>
 </html>

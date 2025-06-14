@@ -1,0 +1,65 @@
+---
+// Página de compras tipo e-commerce
+import Carta from '../Carta.astro';
+const productos = [
+  {
+    nombre: 'Torta de Chocolate',
+    precio: '12.000',
+    imagen: '/favicon.svg',
+    calificacion: 4,
+  },
+  {
+    nombre: 'Brownie',
+    precio: '3.500',
+    imagen: '/favicon.svg',
+    calificacion: 5,
+  },
+  {
+    nombre: 'Galletas Artesanales',
+    precio: '2.000',
+    imagen: '/favicon.svg',
+    calificacion: 3,
+  },
+  {
+    nombre: 'Café en grano',
+    precio: '8.000',
+    imagen: '/favicon.svg',
+    calificacion: 4,
+  },
+];
+---
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Comprar | Pastelería & Mini-Market</title>
+    <style>
+      body { background: #fff; color: #000; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; }
+      h1 { text-align: center; font-size: 2.2rem; margin: 2rem 0 1.5rem 0; letter-spacing: 0.05em; }
+      .compras-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; padding: 2rem; }
+      .carrito { position: fixed; top: 2rem; right: 2rem; background: #000; color: #fff; border-radius: 1rem; padding: 1.5rem; min-width: 260px; box-shadow: 0 2px 8px #0002; }
+      .carrito h2 { margin-top: 0; }
+      .carrito-lista { list-style: none; padding: 0; margin: 0 0 1rem 0; }
+      .carrito-lista li { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+      .carrito-total { font-weight: bold; font-size: 1.1rem; }
+      .btn-comprar { background: #fff; color: #000; border: 2px solid #000; border-radius: 0.5rem; padding: 0.5rem 1.2rem; font-size: 1rem; cursor: pointer; transition: background 0.2s, color 0.2s; }
+      .btn-comprar:hover { background: #000; color: #fff; }
+    </style>
+  </head>
+  <body>
+    <h1>Comprar productos</h1>
+    <div class="compras-grid">
+      {productos.map((p) => <Carta {...p} editable={false} />)}
+    </div>
+    <aside class="carrito">
+      <h2>Carrito</h2>
+      <ul class="carrito-lista">
+        <li><span>Torta de Chocolate</span><span>$12.000</span></li>
+        <li><span>Brownie</span><span>$3.500</span></li>
+      </ul>
+      <div class="carrito-total">Total: $15.500</div>
+      <button class="btn-comprar">Finalizar compra</button>
+    </aside>
+  </body>
+</html>
