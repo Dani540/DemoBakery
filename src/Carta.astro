@@ -1,17 +1,74 @@
 ---
+import StarRating from "./StarRating.astro";
 // Componente de producto tipo "Carta" para portada y compras
-const { nombre, precio, imagen, calificacion, editable } = Astro.props;
+const { id, nombre, precio, imagen, editable, promedio, cantidad, userRating } = Astro.props;
 ---
-<article style="background: var(--bg, #fff); color: var(--fg, #000); border-radius: 1rem; box-shadow: 0 2px 8px #0002; padding: 1.5rem; width: 260px; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-  <img src={imagen} alt={nombre} style="width: 120px; height: 120px; object-fit: cover; border-radius: 0.5rem; background: #eee;" />
-  <h2 style="font-size: 1.2rem; font-weight: bold; margin: 0;">{nombre}</h2>
-  <p style="font-size: 1.1rem; margin: 0;">${precio}</p>
-  <div style="display: flex; align-items: center; gap: 0.3rem;">
-    <StarRating calificacion={calificacion} editable={editable} />
-    <span style="font-size: 0.95rem;">({calificacion})</span>
+<article class="carta-producto">
+  <span class="carta-id">ID: {id}</span>
+  <img src={imagen} alt={nombre} class="carta-img" />
+  <h2 class="carta-nombre">{nombre}</h2>
+  <p class="carta-precio">${precio}</p>
+  <div class="carta-rating-col">
+    <StarRating userRating={userRating} editable={editable} productoId={id} promedio={promedio} cantidad={cantidad} />
+    <div class="carta-rating-info">
+      <span class="carta-promedio">{promedio?.toFixed(1) ?? '-'} ★</span>
+      <span class="carta-cantidad">({cantidad ?? 0} calif.)</span>
+    </div>
   </div>
 </article>
+<style>
+.carta-producto {
+  background: #fff;
+  color: #000;
+  border-radius: 1rem;
+  box-shadow: 0 2px 16px #0005;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  border: 2px solid #000;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+.carta-id {
+  font-size: 0.8rem;
+  color: #888;
+}
+.carta-img {
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  background: #eee;
+  border: 1.5px solid #000;
+}
+.carta-nombre {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+}
+.carta-precio {
+  font-size: 1.1rem;
+  margin: 0;
+}
+.carta-rating-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+}
+.carta-rating-info {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+</style>
 
----
-// Importa el componente de estrellas
-import StarRating from "./StarRating.astro";
+

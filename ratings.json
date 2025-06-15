@@ -1,0 +1,22 @@
+[
+  {
+    "username": "dani",
+    "productId": "prod-1",
+    "value": 4
+  },
+  {
+    "username": "dani",
+    "productId": "prod-2",
+    "value": 2
+  },
+  {
+    "username": "dani",
+    "productId": "prod-3",
+    "value": 5
+  },
+  {
+    "username": "dani",
+    "productId": "prod-4",
+    "value": 5
+  }
+]

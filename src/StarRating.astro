@@ -1,20 +1,24 @@
 ---
+import StarRatingVue from "./StarRatingVue.vue";
 // Componente de estrellas para calificación, editable con Vue si se requiere
-const { calificacion, editable } = Astro.props;
+export const prerender = false;
+const { userRating, calificacion: calificacionProp, editable, promedio, cantidad, productoId } = Astro.props;
+const calificacion = typeof userRating === 'number' ? userRating : (typeof calificacionProp === 'number' ? calificacionProp : (typeof promedio === 'number' ? promedio : 0));
 ---
-
 {editable ? (
-  <StarRatingVue :calificacion="calificacion" />
+  <div style="display: flex; align-items: center; gap: 0.4rem;">
+    <StarRatingVue calificacion={calificacion} client:only="vue" onRateFnName="ratingUtils.rateProduct" productoId={productoId} />
+    <span style="font-size: 1rem; color: #222; min-width: 2.5rem; transition: color 0.2s;">{promedio?.toFixed(1) ?? '-'}</span>
+    <span style="font-size: 0.95rem; color: #888; transition: color 0.2s;">({cantidad ?? 0})</span>
+  </div>
 ) : (
-  <div style="display: flex; gap: 0.1rem;">
+  <div style="display: flex; align-items: center; gap: 0.4rem;">
     {Array.from({ length: 5 }).map((_, i) => (
-      <svg width="20" height="20" fill={i < calificacion ? '#000' : 'none'} stroke="#000" stroke-width="1.5" viewBox="0 0 24 24" key={i} style="display: inline-block;">
+      <svg width="20" height="20" fill={i < calificacion ? '#000' : 'none'} stroke="#000" stroke-width="1.5" viewBox="0 0 24 24" style="display: inline-block; transition: fill 0.2s;">
         <polygon points="12,2 15,9 22,9.5 17,14.5 18.5,22 12,18 5.5,22 7,14.5 2,9.5 9,9" />
       </svg>
     ))}
+    <span style="font-size: 1rem; color: #222; min-width: 2.5rem; transition: color 0.2s;">{promedio?.toFixed(1) ?? '-'}</span>
+    <span style="font-size: 0.95rem; color: #888; transition: color 0.2s;">({cantidad ?? 0})</span>
   </div>
 )}
-
----
-// Importa el componente Vue solo si es editable
-import StarRatingVue from "./StarRatingVue.vue";

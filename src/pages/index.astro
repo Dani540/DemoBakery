@@ -1,31 +1,16 @@
 ---
+export const prerender = false;
 import Carta from '../Carta.astro';
-const productos = [
-  {
-    nombre: 'Torta de Chocolate',
-    precio: '12.000',
-    imagen: '/favicon.svg',
-    calificacion: 4,
-  },
-  {
-    nombre: 'Brownie',
-    precio: '3.500',
-    imagen: '/favicon.svg',
-    calificacion: 5,
-  },
-  {
-    nombre: 'Galletas Artesanales',
-    precio: '2.000',
-    imagen: '/favicon.svg',
-    calificacion: 3,
-  },
-  {
-    nombre: 'Café en grano',
-    precio: '8.000',
-    imagen: '/favicon.svg',
-    calificacion: 4,
-  },
-];
+import { getProducts } from '../../src/data/products';
+import { getRatingsForProduct } from '../../src/data/ratings';
+
+const productos = await getProducts();
+const productosConRatings = await Promise.all(productos.map(async (p: any) => {
+  const ratings = await getRatingsForProduct(p.id);
+  const cantidad = ratings.length;
+  const promedio = cantidad > 0 ? ratings.reduce((acc: number, r: { value: number }) => acc + r.value, 0) / cantidad : 0;
+  return { ...p, promedio, cantidad, calificacion: promedio };
+}));
 ---
 <html lang="es">
   <head>
@@ -37,12 +22,64 @@ const productos = [
       body { background: #000; color: #fff; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; }
       h1 { text-align: center; font-size: 2.5rem; margin: 2rem 0 1.5rem 0; letter-spacing: 0.05em; }
       .productos-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; padding: 2rem; }
+      .navbar { width: 100vw; background: #fff; color: #000; padding: 1rem 0; text-align: center; font-weight: bold; font-size: 1.1rem; box-shadow: 0 2px 8px #0002; }
+      .navbar a { color: #000; text-decoration: none; margin: 0 1.5rem; transition: color 0.2s; }
+      .navbar a:hover { color: #fff; background: #000; border-radius: 0.3rem; padding: 0.1rem 0.3rem; }
     </style>
+    <script type="module" src="/src/scripts/rating-utils.js"></script>
+    <script is:inline>
+      window.onRateGlobal = function(value, productoId) {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+          window.location.href = '/login';
+          return;
+        }
+        if (!productoId) {
+          alert('Error: productoId no definido');
+          return;
+        }
+        const payload = { username: user.username, productId: productoId, value };
+        fetch('/api/rate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              alert('¡Calificación enviada!');
+              window.location.reload();
+            } else {
+              alert('Error al calificar: ' + (data.error || 'Error desconocido'));
+            }
+          })
+          .catch(() => alert('Error de red al calificar'));
+      };
+    </script>
   </head>
   <body>
+    <nav class="navbar">
+      <a href="/">Inicio</a>
+      <a href="/comprar">Comprar</a>
+      <a href="/login">Login</a>
+      <a href="/register">Registro</a>
+      <a href="#" id="logout-link" style="float:right; margin-right:2rem; color:#f00;">Cerrar sesión</a>
+      <script is:inline>
+        document.addEventListener('DOMContentLoaded', () => {
+          const logout = document.getElementById('logout-link');
+          if (logout) {
+            logout.onclick = (e) => {
+              e.preventDefault();
+              localStorage.removeItem('user');
+              window.location.href = '/login';
+            };
+          }
+        });
+      </script>
+    </nav>
     <h1>Pastelería & Mini-Market</h1>
     <div class="productos-grid">
-      {productos.map((p) => <Carta {...p} editable={false} />)}
+      {productosConRatings.map((p) => <Carta {...p} editable={true} />)}
     </div>
   </body>
 </html>

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "prod-1",
+    "nombre": "Torta de Chocolate",
+    "precio": 12000,
+    "imagen": "https://cdn.pixabay.com/photo/2016/11/22/18/52/cake-1850011_1280.jpg"
+  },
+  {
+    "id": "prod-2",
+    "nombre": "Cupcakes",
+    "precio": 3500,
+    "imagen": "https://cdn.pixabay.com/photo/2016/01/11/07/18/cupcakes-1133146_1280.jpg"
+  },
+  {
+    "id": "prod-3",
+    "nombre": "Pastel de Frutas",
+    "precio": 15000,
+    "imagen": "https://images.pexels.com/photos/2144200/pexels-photo-2144200.jpeg?cs=srgb&dl=pexels-quang-nguyen-vinh-222549-2144200.jpg&fm=jpg"
+  },
+  {
+    "id": "prod-4",
+    "nombre": "Pastel Moderno",
+    "precio": 18000,
+    "imagen": "https://cdn.pixabay.com/photo/2023/09/04/20/39/cake-8233676_1280.jpg"
+  }
+]
